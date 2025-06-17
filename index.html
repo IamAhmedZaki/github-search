@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(24, 24, 44);
+        }
+    </style>
+</head>
+
+<body>
+    
+    
+    <div class="container">
+        <div class="d-flex flex-column align-items-center mb-5">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png"  class="w-25 mb-4">
+        <h1 class="text-light">Github User Finder</h1>
+    </div>
+        <div class="input-group mb-3">
+            <button class="btn btn-warning" type="button" id="button-addon1">Search</button>
+            <input type="text" class="form-control" id="searchInput" aria-label="Example text with button addon"
+                aria-describedby="button-addon1">
+        </div>
+
+        <div id="searchResult" class="d-flex justify-content-center">
+
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+    <script>
+        let searchBtn=document.getElementById('button-addon1')
+       
+        
+
+
+        searchBtn.addEventListener('click',(e)=>{
+            e.preventDefault()
+            let searchInput=document.getElementById('searchInput').value
+            let searchResult=document.getElementById('searchResult')
+            console.log(searchInput);
+            
+            fetch(`https://api.github.com/users/${searchInput}`).then(res=>{
+                
+                // searchResult.innerHTML=`
+                // <div class="d-flex justify-content-center">
+                // <div class="spinner-border" role="status">
+                //     <span class="sr-only">Loading...</span>
+                // </div>
+                // </div>`
+                res.json()})
+            .then(data=>{
+
+                // console.log(data.avatar_url);
+                
+                searchResult.innerHTML=`
+                    <div class="card" style="width: 18rem;">
+                        <img src="${data.avatar_url}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h3 class="card-title">${data.name}</h3>
+                            <h6 class="">Github Username</h6>
+                            
+                            <p class="">${data.login}</p>
+                            <h6 class="">Followers</h6>
+                            <p class="">${data.followers}</p>
+                            <h6 class="">Following</h6>
+                            <p class="">${data.following}</p>
+                            <h6 class="">Company</h6>
+                            <p class="">${data.company}</p>
+                            <h6 class="">Location</h6>
+                            <p class="">${data.location}</p>
+                            
+                        </div>
+                        </div>
+                `
+                
+            }
+            ).catch(err=>{
+                searchResult.innerHTML="<div class='text-light'> <h1>No Such User Found!!!</h1> </div>"
+                console.log(err);
+                
+            })
+        })
+
+        // {
+//   "login": "mojodna",
+//   "id": 45,
+//   "node_id": "MDQ6VXNlcjQ1",
+//   "avatar_url": "https://avatars.githubusercontent.com/u/45?v=4",
+//   "gravatar_id": "",
+//   "url": "https://api.github.com/users/mojodna",
+//   "html_url": "https://github.com/mojodna",
+//   "followers_url": "https://api.github.com/users/mojodna/followers",
+//   "following_url": "https://api.github.com/users/mojodna/following{/other_user}",
+//   "gists_url": "https://api.github.com/users/mojodna/gists{/gist_id}",
+//   "starred_url": "https://api.github.com/users/mojodna/starred{/owner}{/repo}",
+//   "subscriptions_url": "https://api.github.com/users/mojodna/subscriptions",
+//   "organizations_url": "https://api.github.com/users/mojodna/orgs",
+//   "repos_url": "https://api.github.com/users/mojodna/repos",
+//   "events_url": "https://api.github.com/users/mojodna/events{/privacy}",
+//   "received_events_url": "https://api.github.com/users/mojodna/received_events",
+//   "type": "User",
+//   "user_view_type": "public",
+//   "site_admin": false,
+//   "name": "Seth Fitzsimmons",
+//   "company": "AWS",
+//   "blog": "http://mojodna.net/",
+//   "location": "Bend, OR",
+//   "email": null,
+//   "hireable": null,
+//   "bio": null,
+//   "twitter_username": "mojodna",
+//   "public_repos": 323,
+//   "public_gists": 80,
+//   "followers": 629,
+//   "following": 114,
+//   "created_at": "2008-01-24T04:40:22Z",
+//   "updated_at": "2025-05-12T21:09:26Z"
+// }
+    </script>
+</body>
+
+</html>
